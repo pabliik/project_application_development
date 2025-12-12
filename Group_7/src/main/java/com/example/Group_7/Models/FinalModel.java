@@ -14,10 +14,10 @@ public class FinalModel {
      * Helper: Calculate one step of discrete logistic growth
      * N(t+1) = N(t) + r × N(t) × (1 - N(t)/K)
      */
-    public int calculateNextPopulation(int initialPopualtion, Herbivore animal, Herbivore comp1, Herbivore comp2, double carryingCapacity, int wolves, double successRate) {
+    public int calculateNextPopulation(int initialPopualtion, Herbivore animal, Herbivore comp1, Herbivore comp2, double availableGrass, int wolves, double successRate) {
         double N = initialPopualtion;
         double r = animal.getGrowth_rate();
-        double K = carryingCapacity;
+        double K = availableGrass/animal.getConsumptionRate()*N;
 
         double N1 = comp1.getPopulation();
         double N2 = comp2.getPopulation();

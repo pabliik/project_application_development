@@ -7,7 +7,7 @@ public class Wolf {
     private double conversionEfficiency;
 
     public Wolf(){
-        this.population = 6;
+        this.population = 5;
         this.deathRate = 0.333;
         this.successRate = 0.1;
         this.conversionEfficiency = 0.10;

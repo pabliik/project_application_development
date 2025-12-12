@@ -12,7 +12,7 @@ public class Group7Application {
 	public static void main(String[] args) {
 		// SpringApplication.run(Group7Application.class, args);
 
-		EcoSystem ecoSystem = new EcoSystem(new Cattle(), new Horse(), new Deer(), new Wolf(), 1000);
+		EcoSystem ecoSystem = new EcoSystem(new Cattle(), new Horse(), new Deer(), new Wolf());
 		ecoSystem.simulate(10);
         System.out.println(ecoSystem.getTotalHerbivoreHistory());
         System.out.println(ecoSystem.getWolfHistory());
