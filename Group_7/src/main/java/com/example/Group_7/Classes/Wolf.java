@@ -5,12 +5,14 @@ public class Wolf {
     private double deathRate;
     private double successRate;
     private double conversionEfficiency;
+    private double consumeRate;
 
     public Wolf(){
-        this.population = 5;
-        this.deathRate = 0.333;
+        this.population = 10;
+        this.deathRate = 1/3;
         this.successRate = 0.1;
-        this.conversionEfficiency = 0.10;
+        this.conversionEfficiency = 0.1;
+        this.consumeRate = 5.0 * 365;
 
     }
 
@@ -44,6 +46,14 @@ public class Wolf {
 
     public void setConversionEfficiency(double conversionEfficiency) {
         this.conversionEfficiency = conversionEfficiency;
+    }
+
+    public double getConsumeRate() {
+        return consumeRate;
+    }
+
+    public void setConsumeRate(double consumeRate) {
+        this.consumeRate = consumeRate;
     }
 
     

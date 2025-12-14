@@ -6,7 +6,8 @@ public class Cattle extends Herbivore {
         super(750, 
             Math.round(0.029610587 * 100.0) / 100.0, 
             375, 
-            4603 );
+            4603,
+            0.0064);
         setupCompetitionMatrix();
     }
 

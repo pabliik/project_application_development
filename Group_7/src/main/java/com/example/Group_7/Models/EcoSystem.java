@@ -31,12 +31,19 @@ public class EcoSystem {
     private grassModel grassModel;
     private double initialTemp;
     private double rain;
+    private List<Integer> grassHistory;
                     
     public EcoSystem(Cattle cattle, Horse horse, Deer deer, Wolf wolf) {
         this.cattle = cattle;
         this.horse = horse;
         this.deer = deer;
-        this.wolf = wolf;
+        if (wolf != null) {
+            this.wolf = wolf;
+        } else {
+            Wolf newWolf = new Wolf();
+            newWolf.setPopulation(0);
+            this.wolf = newWolf;
+        }
         // this.carryingCapacity = carryingCapacity;
         
         this.initialCattle = cattle.getPopulation();
@@ -52,6 +59,7 @@ public class EcoSystem {
         this.horseHistory = new ArrayList<>();
         this.deerHistory = new ArrayList<>();
         this.wolfHistory = new ArrayList<>();
+        this.grassHistory = new ArrayList<>();
 
         this.initialTemp = 12.0;
         this.rain = 710.37;
@@ -71,23 +79,63 @@ public class EcoSystem {
             int currentDeer = deer.getPopulation();
             int currentWolves = wolf.getPopulation();
 
+
             int grass = (int) grassModel.simulate(rain, initialTemp);
             
-            double[] currentHerbivores = {currentCattle, currentHorse, currentDeer};
             
             // Calculate next herbivore populations (using current wolf population)
             int nextCattle = herbivoreModel.calculateNextPopulation(
-                currentCattle, cattle, horse, deer, grass, currentWolves, wolf.getSuccessRate()
+                currentCattle, cattle, horse, deer, grass, wolf
             );
             int nextHorse = herbivoreModel.calculateNextPopulation(
-                currentHorse, horse, cattle, deer, grass, currentWolves, wolf.getSuccessRate()
+                currentHorse, horse, cattle, deer, grass, wolf
             );
             int nextDeer = herbivoreModel.calculateNextPopulation(
-                currentDeer, deer, cattle, horse, grass, currentWolves, wolf.getSuccessRate()
+                currentDeer, deer, cattle, horse, grass, wolf
             );
             
+            int totalHerbivores = currentCattle + currentHorse + currentDeer;
+            int nextTotalHerbivores = nextCattle + nextHorse + nextDeer;
+
+            // If all herbivores are extinct, wolves cannot survive
+            if (nextTotalHerbivores == 0) {
+                // Update all populations together
+                cattle.setPopulation(nextCattle);
+                horse.setPopulation(nextHorse);
+                deer.setPopulation(nextDeer);
+                wolf.setPopulation(0);
+                
+                // Store state for this year
+                cattleHistory.add(nextCattle);
+                horseHistory.add(nextHorse);
+                deerHistory.add(nextDeer);
+                wolfHistory.add(0);
+                grassHistory.add(grass);
+                
+                initialTemp += 0.05;
+                continue; // Skip to next year
+            }
+
+            double killsCattle = cattle.getHuntRate() * currentCattle * currentWolves;
+            double killsHorse = horse.getHuntRate() * currentHorse * currentWolves;
+            double killsDeer = deer.getHuntRate() * currentDeer * currentWolves;
+
+            double[] killsHerbivores = {
+                killsCattle,
+                killsHorse,
+                killsDeer
+            };
+
+            double[] herbivoreMasses = {
+                cattle.getMass(),
+                horse.getMass(),
+                deer.getMass()
+            };
+            
+
+
             // Calculate next wolf population (using current herbivore populations)
-            int nextWolves = predatorModel.predict(wolf, currentHerbivores);
+            int nextWolves = predatorModel.predict(wolf, killsHerbivores);
             
             // Update all populations together
             cattle.setPopulation(nextCattle);
@@ -100,8 +148,9 @@ public class EcoSystem {
             horseHistory.add(nextHorse);
             deerHistory.add(nextDeer);
             wolfHistory.add(nextWolves);
+            grassHistory.add(grass);
 
-            initialTemp += 0.1;
+            initialTemp += 0.05;
 
             
         }
@@ -118,7 +167,7 @@ public class EcoSystem {
         return cattleHistory;
     }
     
-    public List<Integer> getHorseHistory() {
+    public List<Integer> getHorseHistory() {              
         return horseHistory;
     }
     
@@ -128,6 +177,9 @@ public class EcoSystem {
     
     public List<Integer> getWolfHistory() {
         return wolfHistory;
+    }
+    public List<Integer> getGrassHistory() {
+        return grassHistory;
     }
     
     // Get total herbivore history
@@ -142,8 +194,9 @@ public class EcoSystem {
 
     public static void main(String[] args) {
         EcoSystem ecoSystem = new EcoSystem(new Cattle(), new Horse(),new Deer(),new Wolf());
-        ecoSystem.simulate(10);
+        ecoSystem.simulate(100);
         System.out.println(ecoSystem.getTotalHerbivoreHistory());
         System.out.println(ecoSystem.getWolfHistory());
+        System.out.println(ecoSystem.getGrassHistory());
     }
 }

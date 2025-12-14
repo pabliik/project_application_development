@@ -7,7 +7,8 @@ public class Deer extends Herbivore {
             240,  // growth_rate from Excel
             Math.round(0.051251603 * 100.0) / 100.0,          // mass
             870,          // population
-            2003             // consumptionRate per kilo
+            2003,             // consumptionRate per kilo
+            1825/240/870.0
         );
         setupCompetitionMatrix();
     }

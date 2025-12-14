@@ -7,7 +7,8 @@ public class Horse extends Herbivore {
             450,  // growth_rate from Excel
             Math.round(0.058795139 * 100.0) / 100.0,          // mass
             350,          // population
-            4701           // kg per year
+            4701,           // kg per year
+            1825/450/350.0
         );
         setupCompetitionMatrix();
     }

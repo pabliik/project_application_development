@@ -8,13 +8,15 @@ public abstract class Herbivore {
     protected double  growth_rate;
     protected Competition competitionMatrix;
     protected int consumptionRate;
+    protected double huntRate;
 
-    public Herbivore(int mass,double growth_rate, int population, int consumptionRate) {
+    public Herbivore(int mass,double growth_rate, int population, int consumptionRate,double huntRate) {
         this.growth_rate = growth_rate;
         this.mass = mass;
         this.population = population;
         this.competitionMatrix = new Competition();
         this.consumptionRate = consumptionRate;
+        this.huntRate = huntRate;
     }
 
     public Herbivore(){
@@ -69,6 +71,14 @@ public abstract class Herbivore {
 
     public void setConsumptionRate(int consumptionRate) {
         this.consumptionRate = consumptionRate;
+    }
+
+    public double getHuntRate() {
+        return huntRate;
+    }
+
+    public void setHuntRate(double huntRate) {
+        this.huntRate = huntRate;
     }
 
 

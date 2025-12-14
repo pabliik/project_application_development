@@ -1,5 +1,7 @@
 package com.example.Group_7.Models;
 
+import static java.lang.Math.max;
+
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -23,7 +25,8 @@ public class grassModel {
                     tempSquared * Math.pow(t, 2) + 
                     rainTemp * r * t
                     ;
-        return Math.round(height * area * conversionRate); // in kg 
+        long grass = Math.round(height * area * conversionRate); // in kg    
+        return max(0, grass);
     }
 
     public static void main(String[] args) {
