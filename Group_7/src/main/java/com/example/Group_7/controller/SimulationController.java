@@ -54,4 +54,17 @@ public class SimulationController {
             List<Integer> wolfHistory = ecoSystem.getWolfHistory();
             List<Integer> grassHistory = ecoSystem.getGrassHistory();
             
-}
+            // Build results with populations and grass data for each year
+            List<Map<String, Object>> results = buildPredictionResults(
+                cattleHistory, horseHistory, deerHistory, wolfHistory, grassHistory);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("results", results);
+            response.put("startYear", START_YEAR);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return createErrorResponse(e.getMessage());
+        }
+    }
