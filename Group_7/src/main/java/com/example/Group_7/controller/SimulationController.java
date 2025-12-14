@@ -47,5 +47,11 @@ public class SimulationController {
             EcoSystem ecoSystem = new EcoSystem(cattle, horse, deer, wolf);
             ecoSystem.simulate(years);
 
+            // Get population histories from simulation
+            List<Integer> cattleHistory = ecoSystem.getCattleHistory();
+            List<Integer> horseHistory = ecoSystem.getHorseHistory();
+            List<Integer> deerHistory = ecoSystem.getDeerHistory();
+            List<Integer> wolfHistory = ecoSystem.getWolfHistory();
+            List<Integer> grassHistory = ecoSystem.getGrassHistory();
             
 }
