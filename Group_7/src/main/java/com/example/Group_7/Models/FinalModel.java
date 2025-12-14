@@ -39,8 +39,8 @@ public class FinalModel {
         // double deaths = animalsEaten * P * N;
 
         
-        //double nextPopulation = N + (r * N * (1 - (N + a1*N1 + a2*N2) / K)) - deaths;
-        double nextPopulation = N + r*N - deaths;
+        double nextPopulation = N + (r * N * (1 - (N + a1*N1 + a2*N2) / K)) - deaths;
+        //double nextPopulation = N + r*N - deaths;
         nextPopulation = Math.max(0, nextPopulation);
         
         return (int) Math.round(nextPopulation);
