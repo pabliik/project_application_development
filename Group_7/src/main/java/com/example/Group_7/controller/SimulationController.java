@@ -122,4 +122,9 @@ public class SimulationController {
         return grassMass / (AREA_HA * CONVERSION_RATE_KG_PER_HA);
     }
 
+    @param endYear
+    @GetMapping("/grass-data")
+    public ResponseEntity<Map<String, Object>> getGrassData(
+}
+
 
