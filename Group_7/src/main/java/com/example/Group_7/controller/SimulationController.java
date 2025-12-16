@@ -68,3 +68,44 @@ public class SimulationController {
             return createErrorResponse(e.getMessage());
         }
     }
+
+    /**
+     * Builds prediction results with population and grass data for each year.
+     */
+    private List<Map<String, Object>> buildPredictionResults(
+            List<Integer> cattleHistory, List<Integer> horseHistory,
+            List<Integer> deerHistory, List<Integer> wolfHistory, List<Integer> grassHistory) {
+
+        List<Map<String, Object>> results = new ArrayList<>();
+
+        for (int i = 0; i < cattleHistory.size(); i++) {
+            int year = START_YEAR + i;
+            double currentTemp = BASE_TEMPERATURE + (i * TEMP_INCREASE_PER_YEAR);
+
+            // Use grass history from simulation if available, otherwise calculate
+            long grassMass;
+            if (grassHistory != null && i < grassHistory.size()) {
+                grassMass = grassHistory.get(i);
+            } else {
+                grassModel grassModel = new grassModel();
+                grassMass = grassModel.simulate(RAINFALL, currentTemp);
+            }
+            double grassHeight = calculateGrassHeight(grassMass);
+            
+            Map<String, Object> result = new HashMap<>();
+            result.put("year", year);
+            result.put("cattle", cattleHistory.get(i));
+            result.put("horses", horseHistory.get(i));
+            result.put("deer", deerHistory.get(i));
+            result.put("predators", wolfHistory.get(i));
+            result.put("grassHeight", grassHeight);
+            result.put("grassMass", grassMass);
+            result.put("temperature", currentTemp);
+            result.put("rainfall", RAINFALL);
+            
+            results.add(result);
+        }
+        return results;
+    }
+
+    
