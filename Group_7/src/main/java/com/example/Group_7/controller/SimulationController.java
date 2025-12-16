@@ -132,7 +132,6 @@ public class SimulationController {
         return grassMass / (AREA_HA * CONVERSION_RATE_KG_PER_HA);
     }
 
-    @param endYear
     @GetMapping("/grass-data")
     public ResponseEntity<Map<String, Object>> getGrassData(
             @RequestParam int endYear) {
@@ -197,14 +196,11 @@ public class SimulationController {
             // Build model parameters map
             Map<String, Object> modelParams = buildModelParams(horse, cattle, deer, wolf);
             
-            // Build grass model info map
-            Map<String, Object> grassModelInfo = buildGrassModelInfo();
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("initialValues", initialValues);
             response.put("modelParams", modelParams);
-            response.put("modelInfo", grassModelInfo);
             
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -261,7 +257,8 @@ public class SimulationController {
             cattle.getConsumptionRate(),
             deer.getConsumptionRate()
         });
-}   
-
-
+        
+        return modelParams;
+    }
+}
 
