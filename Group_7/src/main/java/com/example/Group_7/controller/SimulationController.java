@@ -108,4 +108,12 @@ public class SimulationController {
         return results;
     }
 
-    
+    /**
+     * Calculates grass height from mass.
+     * Formula: height = mass / (area * conversionRate)
+     */
+    private double calculateGrassHeight(long grassMass) {
+        return grassMass / (AREA_HA * CONVERSION_RATE_KG_PER_HA);
+    }
+
+
