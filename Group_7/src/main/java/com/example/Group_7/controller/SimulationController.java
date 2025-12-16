@@ -33,6 +33,16 @@ public class SimulationController {
     private static final int GRASS_START_YEAR = 2015;
     
     /**
+     * Creates an error response.
+     */
+    private ResponseEntity<Map<String, Object>> createErrorResponse(String errorMessage) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", false);
+        response.put("error", errorMessage);
+        return ResponseEntity.status(500).body(response);
+    }
+    
+    /**
      * Runs a prediction starting from year 2024.
      * @param years Number of years to predict into the future
      * @param wolves Number of wolves in the ecosystem
@@ -168,7 +178,41 @@ public class SimulationController {
         
         return grassData;
     }
+
+    /**
+     * Gets initial model parameters and values.
+     */
+    @GetMapping("/load-data")
+    public ResponseEntity<Map<String, Object>> loadData() {
+        try {
+            // Create animal instances to get initial values
+            Cattle cattle = new Cattle();
+            Horse horse = new Horse();
+            Deer deer = new Deer();
+            Wolf wolf = new Wolf();
+            
+            // Build initial values map
+            Map<String, Object> initialValues = buildInitialValues(cattle, horse, deer, wolf);
+            
+            // Build model parameters map
+            Map<String, Object> modelParams = buildModelParams(horse, cattle, deer, wolf);
+            
+            // Build grass model info map
+            Map<String, Object> grassModelInfo = buildGrassModelInfo();
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("initialValues", initialValues);
+            response.put("modelParams", modelParams);
+            response.put("modelInfo", grassModelInfo);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return createErrorResponse(e.getMessage());
+        }
+    }
     
+
 
 }   
 
