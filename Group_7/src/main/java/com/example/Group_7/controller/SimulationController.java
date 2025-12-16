@@ -246,6 +246,21 @@ public class SimulationController {
         modelParams.put("predatorSuccessRate", wolf.getSuccessRate());
         modelParams.put("predatorConsumeRate", wolf.getConsumeRate());
 
+        // Competition coefficients - order: a11, a12, a13 (self, competitor1, competitor2)
+        
+        // Horses: Horse-Horse=1.0, Horse-Cattle=0.9, Horse-Deer=0.30
+        modelParams.put("horsesCompetition", "1.0, 0.9, 0.30");
+        // Cattle: Cattle-Horse=1.1, Cattle-Cattle=1.0, Cattle-Deer=3.0
+        modelParams.put("cattleCompetition", "1.1, 1.0, 3.0");
+        // Deer: Deer-Horse=0.30, Deer-Cattle=0.30, Deer-Deer=1.0
+        modelParams.put("deerCompetition", "0.30, 0.30, 1.0");
+
+        // Consumption rates (from Herbivore classes - already in kg per year)
+        modelParams.put("grassConsumptionRates", new double[]{
+            horse.getConsumptionRate(),
+            cattle.getConsumptionRate(),
+            deer.getConsumptionRate()
+        });
 }   
 
 
