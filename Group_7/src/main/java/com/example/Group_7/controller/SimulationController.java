@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.Group_7.Classes.Cattle;
 import com.example.Group_7.Classes.Deer;
@@ -16,6 +19,9 @@ import com.example.Group_7.Classes.Wolf;
 import com.example.Group_7.Models.EcoSystem;
 import com.example.Group_7.Models.grassModel;
 
+@RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class SimulationController {
     // Constants for grass calculations
     private static final double AREA_HA = 5600.0;
