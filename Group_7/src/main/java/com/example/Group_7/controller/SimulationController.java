@@ -125,6 +125,52 @@ public class SimulationController {
     @param endYear
     @GetMapping("/grass-data")
     public ResponseEntity<Map<String, Object>> getGrassData(
-}
+            @RequestParam int endYear) {
+        try {
+            if (endYear < GRASS_START_YEAR) {
+                return createErrorResponse("End year must be >= " + GRASS_START_YEAR);
+            }
+            
+            List<Map<String, Object>> grassData = buildGrassData(GRASS_START_YEAR, endYear);
+            
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("data", grassData);
+            
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return createErrorResponse(e.getMessage());
+        }
+    }
+
+    /**
+     * Builds grass data from start year to end year.
+     */
+    private List<Map<String, Object>> buildGrassData(int startYear, int endYear) {
+        List<Map<String, Object>> grassData = new ArrayList<>();
+        grassModel grassModel = new grassModel();
+        
+        for (int year = startYear; year <= endYear; year++) {
+            int yearIndex = year - startYear;
+            double currentTemp = BASE_TEMPERATURE + (yearIndex * TEMP_INCREASE_PER_YEAR);
+            long grassMass = grassModel.simulate(RAINFALL, currentTemp);
+            double grassHeight = calculateGrassHeight(grassMass);
+            
+            Map<String, Object> dataPoint = new HashMap<>();
+            dataPoint.put("year", year);
+            dataPoint.put("grassMass", grassMass);
+            dataPoint.put("grassHeight", grassHeight);
+            dataPoint.put("temperature", currentTemp);
+            dataPoint.put("rainfall", RAINFALL);
+            
+            grassData.add(dataPoint);
+        }
+        
+        return grassData;
+    }
+    
+
+}   
+
 
 
