@@ -232,7 +232,13 @@ public class SimulationController {
         return initialValues;
     }
     
+    private Map<String, Object> buildModelParams(Horse horse, Cattle cattle, Deer deer, Wolf wolf) {
+        Map<String, Object> modelParams = new HashMap<>();
 
+        // Growth rates
+        modelParams.put("horsesGrowthRate", horse.getGrowth_rate());
+        modelParams.put("cattleGrowthRate", cattle.getGrowth_rate());
+        modelParams.put("deerGrowthRate", deer.getGrowth_rate());
 
 }   
 
