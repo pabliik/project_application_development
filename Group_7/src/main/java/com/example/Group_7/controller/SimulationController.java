@@ -240,6 +240,12 @@ public class SimulationController {
         modelParams.put("cattleGrowthRate", cattle.getGrowth_rate());
         modelParams.put("deerGrowthRate", deer.getGrowth_rate());
 
+        // Predator parameters
+        modelParams.put("predatorEfficiency", wolf.getConversionEfficiency());
+        modelParams.put("predatorMortality", wolf.getDeathRate());
+        modelParams.put("predatorSuccessRate", wolf.getSuccessRate());
+        modelParams.put("predatorConsumeRate", wolf.getConsumeRate());
+
 }   
 
 
