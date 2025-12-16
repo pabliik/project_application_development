@@ -211,6 +211,26 @@ public class SimulationController {
             return createErrorResponse(e.getMessage());
         }
     }
+
+    /**
+     * Builds initial population values for year 2024.
+     */
+    private Map<String, Object> buildInitialValues(Cattle cattle, Horse horse, Deer deer, Wolf wolf) {
+        Map<String, Object> initialValues = new HashMap<>();
+        initialValues.put("year", START_YEAR);
+        initialValues.put("horses", horse.getPopulation());
+        initialValues.put("cattle", cattle.getPopulation());
+        initialValues.put("deer", deer.getPopulation());
+        initialValues.put("wolves", wolf.getPopulation());
+        
+        // Calculate initial grass height
+        grassModel grassModel = new grassModel();
+        long grassMass = grassModel.simulate(RAINFALL, BASE_TEMPERATURE);
+        double grassHeight = calculateGrassHeight(grassMass);
+        initialValues.put("grassHeight", grassHeight);
+        
+        return initialValues;
+    }
     
 
 
