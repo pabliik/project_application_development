@@ -30,7 +30,6 @@ public class SimulationController {
     private static final double RAINFALL = 710.37;
     private static final double TEMP_INCREASE_PER_YEAR = 0.05;
     private static final int START_YEAR = 2024;
-    private static final int GRASS_START_YEAR = 2015;
     
     /**
      * Creates an error response.
@@ -136,11 +135,11 @@ public class SimulationController {
     public ResponseEntity<Map<String, Object>> getGrassData(
             @RequestParam int endYear) {
         try {
-            if (endYear < GRASS_START_YEAR) {
-                return createErrorResponse("End year must be >= " + GRASS_START_YEAR);
+            if (endYear < START_YEAR) {
+                return createErrorResponse("End year must be >= " + START_YEAR);
             }
             
-            List<Map<String, Object>> grassData = buildGrassData(GRASS_START_YEAR, endYear);
+            List<Map<String, Object>> grassData = buildGrassData(START_YEAR, endYear);
             
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
